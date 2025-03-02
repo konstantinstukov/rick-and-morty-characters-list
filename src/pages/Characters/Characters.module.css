@@ -1,0 +1,11 @@
+.mainPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 76px;
+}
+
+.mainBanner {
+  max-width: 100%;
+  margin-bottom: 44px;
+}

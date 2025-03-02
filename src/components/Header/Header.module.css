@@ -1,0 +1,9 @@
+.header {
+    background-color: var(--secondary-color);
+}
+
+.headerContainer {
+    display: flex;
+    align-items: center;
+    height: 64px;
+}

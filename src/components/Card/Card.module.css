@@ -1,0 +1,18 @@
+.card {
+  width: 285px;
+  height: 274px;
+}
+
+.cardImg {
+  width: 100%;
+  max-height: 230px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-weight: 400;
+  line-height: 28px;
+  font-size: 20px;
+}
