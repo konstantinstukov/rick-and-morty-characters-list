@@ -1,11 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { CharactersResponse, FilterParams } from '../types/types';
+import {
+  CharacterByIdResponse,
+  AllCharactersResponse,
+  EpisodeByIdResponse,
+  FilterParams,
+  LocationByIdResponse,
+} from '../types/types';
 
 export const charactersApi = createApi({
   reducerPath: 'charactersApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://rickandmortyapi.com/api/' }),
   endpoints: (builder) => ({
-    getCharacters: builder.query<CharactersResponse, FilterParams | undefined>({
+    getFilteredCharacters: builder.query<
+      AllCharactersResponse,
+      FilterParams | undefined
+    >({
       query: (params) => ({
         url: 'character',
         params:
@@ -15,7 +24,24 @@ export const charactersApi = createApi({
           ),
       }),
     }),
+    getCharacterById: builder.query<
+      CharacterByIdResponse | CharacterByIdResponse[],
+      string
+    >({
+      query: (id) => `character/${id}`,
+    }),
+    getEpisodeByIds: builder.query<EpisodeByIdResponse, string>({
+      query: (ids) => `episode/${ids}`,
+    }),
+    getLocationById: builder.query<LocationByIdResponse, string>({
+      query: (id) => `location/${id}`,
+    }),
   }),
 });
 
-export const { useGetCharactersQuery } = charactersApi;
+export const {
+  useGetFilteredCharactersQuery,
+  useGetCharacterByIdQuery,
+  useGetEpisodeByIdsQuery,
+  useGetLocationByIdQuery,
+} = charactersApi;

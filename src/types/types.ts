@@ -26,13 +26,24 @@ export interface PaginationProps {
 }
 
 export interface FilterParams {
-  name: string;
-  status: '' | 'alive' | 'dead' | 'unknown';
-  gender: '' | 'female' | 'male' | 'genderless' | 'unknown';
-  page: number;
+  name?: string;
+  status?: '' | 'alive' | 'dead' | 'unknown';
+  gender?: '' | 'female' | 'male' | 'genderless' | 'unknown';
+  page?: number;
+  location?: {
+    url?: string;
+  };
 }
 
-export interface CharactersResponse {
+export interface CharacterListProps {
+  filters?: FilterParams;
+  maxCards?: number;
+  locationId?: string;
+  startIndex?: number;
+  excludeId?: string;
+}
+
+export interface AllCharactersResponse {
   info: {
     count: number;
     pages: number;
@@ -42,6 +53,50 @@ export interface CharactersResponse {
   results: Character[];
 }
 
-export interface CharacterListProps {
-  filters: FilterParams;
+export interface CharacterByIdResponse {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  image: string;
+  episode: string[];
+  url: string;
+  created: string;
+}
+
+export interface EpisodeByIdResponse {
+  ids: number;
+  air_date: string;
+  episode: string;
+  url: string;
+}
+
+export interface LocationByIdResponse {
+  id: number;
+  residents: string[];
+}
+
+export interface CardProps {
+  character: Character;
+}
+
+export interface CharacterSliderProps {
+  locationId: string;
+  excludeId?: string;
+}
+
+export interface SliderButtonProps {
+  direction: 'prev' | 'next';
+  changeSlide: () => void;
+  isDisabled: boolean;
 }

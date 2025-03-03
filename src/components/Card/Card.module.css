@@ -1,6 +1,11 @@
 .card {
   width: 285px;
   height: 274px;
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .cardImg {
@@ -8,11 +13,11 @@
   max-height: 230px;
   object-fit: cover;
   display: block;
-  margin-bottom: 20px;
 }
 
 .cardTitle {
   font-weight: 400;
   line-height: 28px;
   font-size: 20px;
+  padding: 10px 5px;
 }

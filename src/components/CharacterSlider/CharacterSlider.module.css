@@ -1,0 +1,27 @@
+.characterSliderControl {
+  display: flex;
+  margin-bottom: 20px;
+  height: 100%;
+  gap: 98px;
+}
+
+.characterSliderButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.progressBarContainer {
+  margin: auto 0;
+  flex: 1;
+  height: 1px;
+  background-color: rgba(159, 159, 159, 0.5);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}

@@ -5,7 +5,7 @@ import { CharacterList } from '../../components/CharacterList/CharacterList';
 import { useState } from 'react';
 import { FilterParams } from '../../types/types';
 import { Pagination } from '../../components/Pagination/Pagination';
-import { useGetCharactersQuery } from '../../services/charactersApi';
+import { useGetFilteredCharactersQuery } from '../../services/charactersApi';
 
 const Characters = () => {
   const [filterParams, setFilterParams] = useState<FilterParams>({
@@ -23,7 +23,7 @@ const Characters = () => {
     setFilterParams((prev) => ({ ...prev, page: newPage }));
   };
 
-  const { data } = useGetCharactersQuery(filterParams);
+  const { data } = useGetFilteredCharactersQuery(filterParams);
 
   return (
     <main className={`wrapper ${style.mainPage}`}>
@@ -31,7 +31,7 @@ const Characters = () => {
       <Filter onFilterChange={handleFilterChange} />
       <CharacterList filters={filterParams} />
       <Pagination
-        currentPage={filterParams.page}
+        currentPage={filterParams.page ?? 1}
         totalPages={data?.info.pages ?? 1}
         onPageChange={handlePageChange}
       />

@@ -1,19 +1,16 @@
 import style from './Card.module.css';
-
-interface Character {
-  id: number;
-  name: string;
-  status: string;
-  image: string;
-}
-
-interface CardProps {
-  character: Character;
-}
+import { CardProps } from '../../types/types';
+import { useNavigate } from 'react-router-dom';
 
 const Card = ({ character }: CardProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/character/${character.id}`);
+  };
+
   return (
-    <div className={style.card}>
+    <div className={style.card} onClick={handleClick}>
       <img
         src={character.image}
         alt={character.name}
