@@ -9,7 +9,11 @@ import {
 
 export const charactersApi = createApi({
   reducerPath: 'charactersApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://rickandmortyapi.com/api/' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://rickandmortyapi.com/api/',
+    timeout: 5000,
+  }),
+  keepUnusedDataFor: 120,
   endpoints: (builder) => ({
     getFilteredCharacters: builder.query<
       AllCharactersResponse,
@@ -23,6 +27,11 @@ export const charactersApi = createApi({
             Object.entries(params).filter(([, value]) => value !== '')
           ),
       }),
+      extraOptions: {
+        maxRetries: 3,
+        backoff: (attempt: number) =>
+          Math.min(1000 * Math.pow(2, attempt), 15000),
+      },
     }),
     getCharacterById: builder.query<
       CharacterByIdResponse | CharacterByIdResponse[],

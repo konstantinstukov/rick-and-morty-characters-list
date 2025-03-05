@@ -27,12 +27,17 @@ export interface PaginationProps {
 
 export interface FilterParams {
   name?: string;
-  status?: '' | 'alive' | 'dead' | 'unknown';
-  gender?: '' | 'female' | 'male' | 'genderless' | 'unknown';
+  status?: string;
+  gender?: string;
   page?: number;
   location?: {
     url?: string;
   };
+}
+
+export interface FilterProps {
+  onFilterChange: (filters: FilterParams) => void;
+  initialFilters: FilterParams;
 }
 
 export interface CharacterListProps {

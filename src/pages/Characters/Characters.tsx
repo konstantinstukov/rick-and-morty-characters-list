@@ -2,25 +2,20 @@ import style from './Characters.module.css';
 import mainBanner from '../../assets/main-banner.png';
 import { Filter } from '../../components/Filter/Filter';
 import { CharacterList } from '../../components/CharacterList/CharacterList';
-import { useState } from 'react';
 import { FilterParams } from '../../types/types';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { useGetFilteredCharactersQuery } from '../../services/charactersApi';
+import { useFilterParams } from '../../hooks/useFilterParams';
 
 const Characters = () => {
-  const [filterParams, setFilterParams] = useState<FilterParams>({
-    name: '',
-    status: '',
-    gender: '',
-    page: 1,
-  });
+  const { filterParams, updateFilterParams } = useFilterParams();
 
   const handleFilterChange = (newFilters: FilterParams) => {
-    setFilterParams({ ...newFilters, page: 1 });
+    updateFilterParams({ ...newFilters, page: 1 });
   };
 
   const handlePageChange = (newPage: number) => {
-    setFilterParams((prev) => ({ ...prev, page: newPage }));
+    updateFilterParams({ ...filterParams, page: newPage });
   };
 
   const { data } = useGetFilteredCharactersQuery(filterParams);
@@ -28,7 +23,10 @@ const Characters = () => {
   return (
     <main className={`wrapper ${style.mainPage}`}>
       <img src={mainBanner} alt="Rick and Morty" className={style.mainBanner} />
-      <Filter onFilterChange={handleFilterChange} />
+      <Filter
+        onFilterChange={handleFilterChange}
+        initialFilters={filterParams}
+      />
       <CharacterList filters={filterParams} />
       <Pagination
         currentPage={filterParams.page ?? 1}

@@ -5,7 +5,7 @@ export const BackButton = () => {
   const navigate = useNavigate();
 
   return (
-    <button className="button" onClick={() => navigate('/')}>
+    <button className="button" onClick={() => navigate(-1)}>
       <span className="button-icon">
         <svg
           width="10"
