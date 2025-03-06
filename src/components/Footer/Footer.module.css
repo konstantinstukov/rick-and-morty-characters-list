@@ -1,0 +1,37 @@
+.footer {
+  background-color: #d2e055;
+  height: 154px;
+  display: flex;
+  align-items: center;
+}
+
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.social {
+  display: flex;
+  gap: 15px;
+}
+
+.socialImg {
+  width: 35px;
+}
+
+.productInfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 20px;
+}
+
+.productInfo p {
+  display: block;
+}
+
+.productInfo img {
+  max-height: 100%;
+}
