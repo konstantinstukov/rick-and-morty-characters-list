@@ -1,14 +1,12 @@
 import { memo } from 'react';
-import style from './CharacterList.module.css';
 import {
   useGetCharacterByIdQuery,
   useGetFilteredCharactersQuery,
   useGetLocationByIdQuery,
-} from '../../services/charactersApi';
-import Card from '../Card/Card';
-import { CharacterListProps } from '../../types/types';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { skipToken } from '@reduxjs/toolkit/query';
+} from '../services/charactersApi';
+import Card from './Card';
+import { CharacterListProps } from '../types/types';
+import { FetchBaseQueryError, skipToken } from '@reduxjs/toolkit/query';
 
 const getErrorMessage = (error: FetchBaseQueryError) => {
   if ('status' in error) {
@@ -37,7 +35,6 @@ export const CharacterList = memo(
     } = useGetFilteredCharactersQuery(filters, {
       skip: !!locationId,
     });
-
     const {
       data: locationData,
       error: locationError,
@@ -52,7 +49,6 @@ export const CharacterList = memo(
       )
       ?.map((url) => url.split('/').pop())
       .join(',');
-
     const {
       data: characters,
       error: charactersError,
@@ -60,33 +56,32 @@ export const CharacterList = memo(
     } = useGetCharacterByIdQuery(characterIds || skipToken, {
       skip: !locationId || !characterIds,
     });
+    const error = characterError || locationError || charactersError;
 
-    if (characterError || locationError || charactersError) {
-      const error = characterError || locationError || charactersError;
-      return <p>{getErrorMessage(error as FetchBaseQueryError)}</p>;
-    }
-
-    if (characterIsLoading || locationIsLoading || charactersLoading) {
-      return <p>Loading...</p>;
-    }
+    const isLoading =
+      characterIsLoading || locationIsLoading || charactersLoading;
 
     return (
-      <div className={`wrapper ${style.characterListContainer}`}>
-        {locationId
-          ? characters && (
-              <>
-                {Array.isArray(characters) ? (
-                  characters.map((character) => (
-                    <Card key={character.id} character={character} />
-                  ))
-                ) : (
-                  <Card key={characters.id} character={characters} />
-                )}
-              </>
-            )
-          : characterData?.results.map((character) => (
-              <Card key={character.id} character={character} />
-            ))}
+      <div className="w-full grid grid-cols-4 gap-5 place-items-center min-h-[280px]">
+        {error && <p>{getErrorMessage(error as FetchBaseQueryError)}</p>}
+        {isLoading && <p>Loading...</p>}
+        {!error &&
+          !isLoading &&
+          (locationId
+            ? characters && (
+                <>
+                  {Array.isArray(characters) ? (
+                    characters.map((character) => (
+                      <Card key={character.id} character={character} />
+                    ))
+                  ) : (
+                    <Card key={characters.id} character={characters} />
+                  )}
+                </>
+              )
+            : characterData?.results.map((character) => (
+                <Card key={character.id} character={character} />
+              )))}
       </div>
     );
   }

@@ -1,8 +1,0 @@
-.button {
-  width: 48px;
-}
-
-.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}

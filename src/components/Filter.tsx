@@ -1,6 +1,5 @@
 import { memo } from 'react';
-import { FilterParams, FilterProps } from '../../types/types';
-import style from './Filter.module.css';
+import { FilterParams, FilterProps } from '../types/types';
 import { useState, ChangeEvent } from 'react';
 
 export const Filter = memo(
@@ -19,10 +18,10 @@ export const Filter = memo(
     };
 
     return (
-      <div className={style.filterContainer}>
+      <div className="max-w-7xl flex gap-6">
         <input
           type="text"
-          className={style.inputField}
+          className="input"
           name="name"
           placeholder="Имя"
           value={filters.name ?? ''}
@@ -31,7 +30,7 @@ export const Filter = memo(
         <select
           name="status"
           id="status"
-          className={style.inputField}
+          className="input"
           value={filters.status ?? ''}
           onChange={handleChange}
         >
@@ -45,7 +44,7 @@ export const Filter = memo(
           id="gender"
           value={filters.gender ?? ''}
           onChange={handleChange}
-          className={style.inputField}
+          className="input"
         >
           <option value="">Пол</option>
           <option value="Female">Female</option>

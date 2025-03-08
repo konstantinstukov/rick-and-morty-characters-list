@@ -1,7 +1,6 @@
-import { PaginationProps } from '../../types/types';
-import style from './Pagination.module.css';
-import leftArrow from '../../assets/icons/arrow-left.svg';
-import rightArrow from '../../assets/icons/arrow-right.svg';
+import { PaginationProps } from '../types/types';
+import leftArrow from '../assets/icons/arrow-left.svg';
+import rightArrow from '../assets/icons/arrow-right.svg';
 
 export const Pagination = ({
   currentPage,
@@ -38,9 +37,9 @@ export const Pagination = ({
   };
 
   return (
-    <div className={style.pagination}>
+    <div className="flex gap-3.5 justify-center pb-19">
       <button
-        className={`${style.paginationButton} ${currentPage === 1 ? style.disabled : ''}`}
+        className="pagination__button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
@@ -50,9 +49,7 @@ export const Pagination = ({
       {getPageNumbers().map((pageNumber) => (
         <button
           key={pageNumber}
-          className={`${style.paginationButton} ${
-            pageNumber === currentPage ? style.active : ''
-          }`}
+          className={`${'pagination__button'} ${pageNumber === currentPage ? 'pagination__button_active' : ''}`}
           onClick={() => onPageChange(pageNumber)}
         >
           {pageNumber}
@@ -60,7 +57,7 @@ export const Pagination = ({
       ))}
 
       <button
-        className={`${style.paginationButton} ${currentPage === totalPages ? style.disabled : ''}`}
+        className="pagination__button"
         onClick={() =>
           onPageChange(currentPage < totalPages ? currentPage + 1 : totalPages)
         }

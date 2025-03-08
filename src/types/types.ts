@@ -94,14 +94,3 @@ export interface LocationByIdResponse {
 export interface CardProps {
   character: Character;
 }
-
-export interface CharacterSliderProps {
-  locationId: string;
-  excludeId?: string;
-}
-
-export interface SliderButtonProps {
-  direction: 'prev' | 'next';
-  changeSlide: () => void;
-  isDisabled: boolean;
-}
