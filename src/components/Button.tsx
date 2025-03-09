@@ -17,11 +17,19 @@ export const Button = ({
 }: ButtonProps) => {
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    if (navigateBack) {
+      navigate(-1);
+    } else if (changeSlide) {
+      changeSlide();
+    }
+  };
+
   return (
     <button
       type="button"
       className={`group flex items-center gap-2.75 cursor-pointer hover:text-white ${isDisabled ? 'pointer-events-none opacity-50' : ''}`}
-      onClick={navigateBack ? () => navigate(-1) : changeSlide}
+      onClick={handleClick}
     >
       <span className="size-12 bg-[#EEF0F4] rounded-xl flex items-center justify-center group-hover:bg-secondary-green">
         {iconDirection === 'right' ? (

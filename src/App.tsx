@@ -1,6 +1,6 @@
 import Header from './components/Header.tsx';
 import Footer from './components/Footer.tsx';
-import { Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
 import Characters from './pages/Characters.tsx';
 import { NoMatch } from './pages/NoMatch.tsx';
 import { CharacterDetail } from './pages/CharacterDetail.tsx';
