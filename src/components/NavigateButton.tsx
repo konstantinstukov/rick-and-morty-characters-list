@@ -1,38 +1,31 @@
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from "next/navigation";
+import { ButtonProps } from "../types/types";
 
-interface ButtonProps {
-  iconDirection?: 'left' | 'right';
-  changeSlide?: () => void;
-  navigateBack?: boolean;
-  isDisabled?: boolean;
-  spanText?: string;
-}
-
-export const Button = ({
+export const NavigateButton = ({
   iconDirection,
-  changeSlide,
+  spanText,
   navigateBack,
   isDisabled,
-  spanText,
+  onClick,
 }: ButtonProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleClick = () => {
     if (navigateBack) {
-      navigate(-1);
-    } else if (changeSlide) {
-      changeSlide();
+      router.back();
+    } else if (onClick) {
+      onClick();
     }
   };
 
   return (
     <button
       type="button"
-      className={`group flex items-center gap-2.75 cursor-pointer hover:text-white ${isDisabled ? 'pointer-events-none opacity-50' : ''}`}
+      className={`group flex items-center gap-2.75 cursor-pointer hover:text-white ${isDisabled ? "pointer-events-none opacity-50" : ""}`}
       onClick={handleClick}
     >
       <span className="size-12 bg-[#EEF0F4] rounded-xl flex items-center justify-center group-hover:bg-secondary-green">
-        {iconDirection === 'right' ? (
+        {iconDirection === "right" ? (
           <svg
             width="10"
             height="16"
