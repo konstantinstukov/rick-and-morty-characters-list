@@ -1,6 +1,4 @@
-import { NavigateButton } from "./NavigateButton";
-
-export default function CharactersSliderSkeleton() {
+export const CharactersSliderSkeleton = () => {
   return (
     <>
       <div className="grid grid-cols-4 gap-4">
@@ -12,4 +10,4 @@ export default function CharactersSliderSkeleton() {
       </div>
     </>
   );
-}
+};

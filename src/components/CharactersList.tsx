@@ -4,70 +4,78 @@ import { useGetCharactersQuery } from "../services/charactersApi";
 import { Card } from "./Card";
 import { CharactersListSkeleton } from "./CharactersListSkeleton";
 import { Pagination } from "./Pagination";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Filter } from "./Filter";
 import { useUrlParams } from "../hooks/useUrlParams";
+
+const CharactersContainer = ({ children }) => (
+  <>
+    <Filter />
+    <div className="w-full max-w-7xl mx-auto grid grid-cols-4 gap-5 place-items-center mb-10">
+      {children}
+    </div>
+  </>
+);
 
 export const CharactersList = () => {
   const { getParam, getParams } = useUrlParams();
   const params = getParams();
-  const pageParam = getParam("page");
-  const [currentPage, setCurrentPage] = useState(
-    pageParam ? Number(pageParam) : 1,
+  const [currentPage, setCurrentPage] = useState(Number(getParam("page") || 1));
+
+  const queryParams = useMemo(
+    () => ({
+      page: currentPage,
+      name: params.name || undefined,
+      status: params.status || undefined,
+      gender: params.gender || undefined,
+    }),
+    [currentPage, params],
   );
 
-  const { data, error, isLoading, isFetching } = useGetCharactersQuery({
-    page: currentPage,
-    name: params.name || undefined,
-    status: params.status || undefined,
-    gender: params.gender || undefined,
-  });
+  const { data, error, isLoading, isFetching } =
+    useGetCharactersQuery(queryParams);
 
   useEffect(() => {
-    const page = getParam("page");
-    if (page) {
-      setCurrentPage(Number(page));
-    } else {
-      setCurrentPage(1);
-    }
+    setCurrentPage(Number(getParam("page") || 1));
   }, [getParam]);
 
   if (isLoading || isFetching) {
     return (
-      <>
-        <Filter />
-        <div className="w-full max-w-7xl mx-auto grid grid-cols-4 gap-5 place-items-center mb-10">
-          <CharactersListSkeleton />
-        </div>
-      </>
+      <CharactersContainer>
+        <CharactersListSkeleton />
+      </CharactersContainer>
     );
   }
 
   if (error) {
     return (
-      <>
-        <Filter />
-        <div className="w-full max-w-7xl mx-auto grid grid-cols-4 gap-5 place-items-center mb-10">
-          <div className="col-span-4 text-center my-10">
-            <p className="text-xl text-red-500">
-              {"status" in error
-                ? error.status
-                : error.message || "An unknown error occurred"}
-            </p>
-          </div>
+      <CharactersContainer>
+        <p className="text-xl text-red-500">
+          {"status" in error
+            ? `${error.status} - Character not found`
+            : error.message || "An unknown error occurred"}
+        </p>
+      </CharactersContainer>
+    );
+  }
+
+  if (data && data.results.length === 0) {
+    return (
+      <CharactersContainer>
+        <div className="col-span-4 text-center my-10">
+          <p className="text-xl">Characters not found</p>
         </div>
-      </>
+      </CharactersContainer>
     );
   }
 
   return (
     <>
-      <Filter />
-      <div className="w-full max-w-7xl mx-auto grid grid-cols-4 gap-5 place-items-center mb-10">
+      <CharactersContainer>
         {data?.results.map((character) => (
           <Card key={character.id} character={character} />
         ))}
-      </div>
+      </CharactersContainer>
       <Pagination
         currentPage={currentPage}
         totalPages={data?.info.pages}

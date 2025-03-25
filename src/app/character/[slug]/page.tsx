@@ -1,13 +1,14 @@
 "use client";
 
+import { memo } from "react";
 import { useParams } from "next/navigation";
 import { useGetCharacterByIdQuery } from "../../../services/charactersApi";
-import { EpisodesTable } from "../../../components/EpisodesTable";
 import Image from "next/image";
+import { EpisodesTable } from "../../../components/EpisodesTable";
 import { NavigateButton } from "../../../components/NavigateButton";
 import { CharactersSlider } from "../../../components/CharactersSlider";
 
-export default function CharacterPage() {
+const CharacterPage = memo(() => {
   const params = useParams();
   const slug = params.slug;
 
@@ -17,23 +18,24 @@ export default function CharacterPage() {
     error,
   } = useGetCharacterByIdQuery({ id: Number(slug) });
 
-  if (isLoading)
-    return <div className="mt-10 text-center">Loading character...</div>;
-  if (error)
-    return (
-      <div className="mt-10 text-center text-red-500">
-        Error loading character data
-      </div>
-    );
-  if (!character)
-    return <div className="mt-10 text-center">Character not found</div>;
-
-  const episodesIds = character.episode
+  const episodesIds = character?.episode
     .map((episode) => {
       const id = episode.split("/").pop();
       return id ? Number(id) : null;
     })
     .filter((id) => id !== null);
+
+  if (isLoading)
+    return <div className="mt-10 text-center">Loading character...</div>;
+  if (error)
+    return (
+      <div className="mt-10 text-center text-red-500">
+        Error loading character data. Please try refreshing the page or check
+        your internet connection.
+      </div>
+    );
+  if (!character)
+    return <div className="mt-10 text-center">Character not found</div>;
 
   return (
     <div className="flex flex-col gap-10">
@@ -47,11 +49,13 @@ export default function CharacterPage() {
       <section className="flex gap-5 w-full">
         <Image
           src={character.image}
-          alt={character.name}
+          alt={`${character.name} portrait`}
           width={387}
           height={387}
           className="object-cover rounded-lg w-[300px] h-[300px]"
-          priority
+          loading="lazy"
+          priority={false}
+          aria-label={`${character.name} portrait`}
         />
         <div className="flex flex-col grow">
           <div className="text-5xl font-bold pb-8">
@@ -101,4 +105,6 @@ export default function CharacterPage() {
       </section>
     </div>
   );
-}
+});
+
+export default CharacterPage;
