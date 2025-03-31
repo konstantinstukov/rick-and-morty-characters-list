@@ -10,13 +10,13 @@ import { CharactersSlider } from "../../../components/CharactersSlider";
 
 const CharacterPage = memo(() => {
   const params = useParams();
-  const slug = params.slug;
+  const characterPage = params?.id;
 
   const {
     data: character,
     isLoading,
     error,
-  } = useGetCharacterByIdQuery({ id: Number(slug) });
+  } = useGetCharacterByIdQuery({ id: Number(characterPage) });
 
   const episodesIds = character?.episode
     .map((episode) => {
@@ -59,7 +59,7 @@ const CharacterPage = memo(() => {
         />
         <div className="flex flex-col grow">
           <div className="text-5xl font-bold pb-8">
-            <h5>{character.name}</h5>
+            <h1>{character.name}</h1>
           </div>
           <div className="flex gap-4 items-start">
             <table className="w-full text-lg table-fixed">

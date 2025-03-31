@@ -25,7 +25,7 @@ export const Card = memo(({ character }: CardProps) => {
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-opacity duration-300 opacity-0"
-            onLoadingComplete={(img) => img.classList.add("opacity-100")}
+            onLoad={(e) => e.currentTarget.classList.add("opacity-100")}
             loading="lazy"
             quality={85}
           />

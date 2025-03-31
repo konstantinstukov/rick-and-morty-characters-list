@@ -20,7 +20,7 @@ export const Filter = () => {
       status: getParam("status") || "",
       gender: getParam("gender") || "",
     }),
-    [getParam],
+    [getParam]
   );
 
   const handleFilterCHange = useCallback(
@@ -39,7 +39,7 @@ export const Filter = () => {
         });
       }, 500);
     },
-    [currentFilters, setParams],
+    [currentFilters, setParams]
   );
   ``;
 
@@ -52,7 +52,7 @@ export const Filter = () => {
         type="text"
         className="input"
         name="name"
-        placeholder="Имя"
+        placeholder="Name"
         value={currentFilters.name}
         onChange={(e) => handleFilterCHange("name", e.target.value)}
       />
@@ -63,7 +63,7 @@ export const Filter = () => {
         value={currentFilters.status}
         onChange={(e) => handleFilterCHange("status", e.target.value)}
       >
-        <option value="">Статус</option>
+        <option value="">Status</option>
         <option value="Alive">Alive</option>
         <option value="Dead">Dead</option>
         <option value="unknown">unknown</option>
@@ -75,7 +75,7 @@ export const Filter = () => {
         value={currentFilters.gender}
         onChange={(e) => handleFilterCHange("gender", e.target.value)}
       >
-        <option value="">Пол</option>
+        <option value="">Gender</option>
         <option value="Female">Female</option>
         <option value="Male">Male</option>
         <option value="Genderless">Genderless</option>
