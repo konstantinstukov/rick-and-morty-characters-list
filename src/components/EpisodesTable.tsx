@@ -6,20 +6,23 @@ interface EpisodesTableProps {
   episodesIds: number | number[];
 }
 
+const getErrorMessage = (error: FetchBaseQueryError | SerializedError) => {
+  if ("status" in error) {
+    return `Error: ${error.status} ${JSON.stringify(error.data)}`;
+  } else {
+    return error.message || "An unknown error occurred";
+  }
+};
+
 export const EpisodesTable = ({ episodesIds }: EpisodesTableProps) => {
   const {
     data: episodes,
     isLoading,
     error,
-  } = useGetEpisodesByIdQuery({ ids: episodesIds });
-
-  const getErrorMessage = (error: FetchBaseQueryError | SerializedError) => {
-    if ("status" in error) {
-      return `Error: ${error.status} ${JSON.stringify(error.data)}`;
-    } else {
-      return error.message || "An unknown error occurred";
-    }
-  };
+  } = useGetEpisodesByIdQuery(
+    { ids: episodesIds },
+    { refetchOnMountOrArgChange: true },
+  );
 
   if (isLoading) {
     return (
@@ -68,10 +71,19 @@ export const EpisodesTable = ({ episodesIds }: EpisodesTableProps) => {
 
   return (
     <table className="text-lg w-full table-fixed">
-      <tbody>
+      <caption className="sr-only">Character's episodes</caption>
+      <thead>
         <tr className="bg-[#e8e8e8] h-9">
-          <th colSpan={2}>Episode</th>
+          <th
+            colSpan={2}
+            scope="colgroup"
+            className="font-semibold text-left px-2"
+          >
+            Episode
+          </th>
         </tr>
+      </thead>
+      <tbody>
         {(Array.isArray(episodes) ? episodes : [episodes])
           .slice(0, 6)
           .map((episode) => (
@@ -91,3 +103,5 @@ export const EpisodesTable = ({ episodesIds }: EpisodesTableProps) => {
     </table>
   );
 };
+
+EpisodesTable.displayName = "EpisodesTable";

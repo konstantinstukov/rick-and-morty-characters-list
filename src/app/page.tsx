@@ -3,7 +3,7 @@ import { CharactersList } from "../components/CharactersList";
 
 export default function Page() {
   return (
-    <section>
+    <>
       <Image
         className="mb-10"
         src="/main-banner.png"
@@ -13,6 +13,6 @@ export default function Page() {
         priority
       />
       <CharactersList />
-    </section>
+    </>
   );
 }
