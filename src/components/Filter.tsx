@@ -1,7 +1,7 @@
 "use client";
 
 import { useUrlParams } from "../hooks/useUrlParams";
-import { useCallback, useMemo } from "react";
+import { useCallback, useRef, useState } from "react";
 
 type FilterType = "status" | "gender" | "name";
 
@@ -13,35 +13,34 @@ type FilterState = {
 
 export const Filter = () => {
   const { getParam, setParams } = useUrlParams();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [localFilters, setLocalFilters] = useState<FilterState>({
+    name: getParam("name") || "",
+    status: getParam("status") || "",
+    gender: getParam("gender") || "",
+  });
 
-  const currentFilters = useMemo<FilterState>(
-    () => ({
-      name: getParam("name") || "",
-      status: getParam("status") || "",
-      gender: getParam("gender") || "",
-    }),
-    [getParam]
-  );
-
-  const handleFilterCHange = useCallback(
+  const handleFilterChange = useCallback(
     (type: FilterType, value: string) => {
-      const newFilters = { ...currentFilters, [type]: value };
+      setLocalFilters((prev) => ({
+        ...prev,
+        [type]: value,
+      }));
 
-      const hasFilterChanged =
-        currentFilters.name !== newFilters.name ||
-        currentFilters.status !== newFilters.status ||
-        currentFilters.gender !== newFilters.gender;
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
 
-      setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         setParams({
-          ...newFilters,
-          ...(hasFilterChanged ? { page: 1 } : {}),
+          ...localFilters,
+          [type]: value,
+          page: 1,
         });
       }, 500);
     },
-    [currentFilters, setParams]
+    [setParams]
   );
-  ``;
 
   return (
     <form
@@ -53,15 +52,15 @@ export const Filter = () => {
         className="input"
         name="name"
         placeholder="Name"
-        value={currentFilters.name}
-        onChange={(e) => handleFilterCHange("name", e.target.value)}
+        value={localFilters.name}
+        onChange={(e) => handleFilterChange("name", e.target.value)}
       />
       <select
         name="status"
         id="status"
         className="input"
-        value={currentFilters.status}
-        onChange={(e) => handleFilterCHange("status", e.target.value)}
+        value={localFilters.status}
+        onChange={(e) => handleFilterChange("status", e.target.value)}
       >
         <option value="">Status</option>
         <option value="Alive">Alive</option>
@@ -72,8 +71,8 @@ export const Filter = () => {
         name="gender"
         id="gender"
         className="input"
-        value={currentFilters.gender}
-        onChange={(e) => handleFilterCHange("gender", e.target.value)}
+        value={localFilters.gender}
+        onChange={(e) => handleFilterChange("gender", e.target.value)}
       >
         <option value="">Gender</option>
         <option value="Female">Female</option>
