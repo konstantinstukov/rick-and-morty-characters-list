@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { Character } from "../types/types";
 import { memo } from "react";
@@ -10,6 +11,8 @@ interface CardProps {
 }
 
 export const Card = memo(({ character }: CardProps) => {
+  console.log("Rendering Card:", character.name);
+
   return (
     <article className="w-full flex flex-col rounded-sm overflow-hidden cursor-pointer hover:shadow-lg hover:outline-2 hover:outline-primary-green transition-transform duration-200 hover:scale-105">
       <Link

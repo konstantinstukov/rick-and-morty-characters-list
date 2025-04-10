@@ -29,7 +29,7 @@ export const CharactersList = () => {
       status: params.status || undefined,
       gender: params.gender || undefined,
     }),
-    [currentPage, params],
+    [currentPage, params]
   );
 
   const { data, error, isLoading, isFetching } =
