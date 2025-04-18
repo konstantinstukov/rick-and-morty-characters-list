@@ -2,30 +2,31 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
 /**
- * Хук для управления параметрами URL.
+ * Custom hook for managing URL parameters.
  *
- * Позволяет получать, изменять и удалять параметры в URL.
+ * Allows you to get, set, and remove parameters in the URL.
  *
  * @returns {{
+ *   getParam: (key: string) => string
  *   getParams: () => Record<string, string>,
  *   setParams: (params: Record<string, string | number | undefined>) => void,
- *   getParam: (key: string) => string
- * }} Объект с функциями:
- *   - `getParams`: Возвращает объект с текущими параметрами URL.
- *   - `setParams`: Устанавливает новые параметры URL, обновляя адрес в браузере.
- *   - `getParam`: Получает значение конкретного параметра по его ключу.
+ * }} An object containing the following functions:
+ *   - `getParams`: Returns an object with the current URL parameters.
+ *   - `setParams`: Sets new URL parameters, updating the address in the browser.
+ *   - `getParam`: Retrieves the value of a specific parameter by its key.
  *
  * @example
- * const { getParams, setParams, getParam } = useUrlParams();
+ * const {getParam, getParams, setParams } = useUrlParams();
  *
- * // Получить все параметры
+ * Get a specific parameter
+ * const page = getParam('page'); // "2"
+ *
+ * Get all parameters
  * const allParams = getParams(); // { page: "2", filter: "active" }
  *
- * // Установить параметры
+ * Set parameters
  * setParams({ page: 2, filter: 'active' });
  *
- * // Получить конкретный параметр
- * const page = getParam('page'); // "2"
  */
 
 type ParamsObject = Record<string, string>;
@@ -35,6 +36,13 @@ export const useUrlParams = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const getParam = useCallback(
+    (key: string) => {
+      return searchParams.get(key) || "";
+    },
+    [searchParams]
+  );
 
   const getParams = useCallback((): ParamsObject => {
     return Object.fromEntries(searchParams.entries());
@@ -53,14 +61,7 @@ export const useUrlParams = () => {
       });
       router.push(`${pathname}?${params.toString()}`);
     },
-    [pathname, router, searchParams],
-  );
-
-  const getParam = useCallback(
-    (key: string) => {
-      return searchParams.get(key) || "";
-    },
-    [searchParams],
+    [pathname, router, searchParams]
   );
 
   return { getParams, setParams, getParam };
