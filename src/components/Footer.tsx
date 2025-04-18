@@ -92,3 +92,7 @@ export const Footer: FC = memo(() => {
     </footer>
   );
 });
+
+Footer.displayName = "Footer";
+
+export default Footer;

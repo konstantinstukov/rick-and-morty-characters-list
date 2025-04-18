@@ -22,3 +22,7 @@ export const Header = memo(() => {
     </header>
   );
 });
+
+Header.displayName = "Header";
+
+export default Header;

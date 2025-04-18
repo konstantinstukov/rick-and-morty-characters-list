@@ -24,13 +24,15 @@ export const NavigateButton = memo(
     const ariaLabel = navigateBack
       ? "Return to previous page"
       : iconDirection === "right"
-        ? "Go to next page"
-        : "Go to previous page";
+      ? "Go to next page"
+      : "Go to previous page";
 
     return (
       <button
         type="button"
-        className={`group flex items-center gap-2.75 cursor-pointer hover:text-white ${isDisabled ? "pointer-events-none opacity-50" : ""}`}
+        className={`group flex items-center gap-2.75 cursor-pointer hover:text-white ${
+          isDisabled ? "pointer-events-none opacity-50" : ""
+        }`}
         onClick={handleClick}
         disabled={isDisabled}
         aria-label={ariaLabel}
@@ -53,5 +55,9 @@ export const NavigateButton = memo(
         )}
       </button>
     );
-  },
+  }
 );
+
+NavigateButton.displayName = "NavigateButton";
+
+export default NavigateButton;

@@ -3,7 +3,7 @@ import { Character } from "../types/types";
 
 export const useSlider = (
   characters: Character[],
-  cardsPerPage: number = 4,
+  cardsPerPage: number = 4
 ) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -11,22 +11,25 @@ export const useSlider = (
     setCurrentIndex((prevIndex) =>
       prevIndex === 0
         ? Math.max(0, characters.length - cardsPerPage)
-        : prevIndex - cardsPerPage,
+        : prevIndex - cardsPerPage
     );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + cardsPerPage >= characters.length
-        ? 0
-        : prevIndex + cardsPerPage,
-    );
+    setCurrentIndex((prevIndex) => {
+      const remaining = characters.length - (prevIndex + cardsPerPage);
+      if (remaining <= 0) {
+        return 0;
+      }
+      return prevIndex + cardsPerPage;
+    });
   };
 
-  const visibleCards = useMemo(
-    () => characters.slice(currentIndex, currentIndex + cardsPerPage),
-    [characters, currentIndex, cardsPerPage],
-  );
+  const visibleCards = useMemo(() => {
+    const end = currentIndex + cardsPerPage;
+    const slicedCards = characters.slice(currentIndex, end);
+    return slicedCards;
+  }, [characters, currentIndex, cardsPerPage]);
 
   const progressPercent = useMemo(
     () =>
@@ -35,7 +38,7 @@ export const useSlider = (
             characters.length) *
           100
         : 100,
-    [characters, currentIndex, cardsPerPage],
+    [characters, currentIndex, cardsPerPage]
   );
 
   const isButtonDisabled = characters.length <= cardsPerPage;

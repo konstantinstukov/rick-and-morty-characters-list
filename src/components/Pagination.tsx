@@ -19,7 +19,7 @@ export const Pagination = memo(
         onPageChange(page);
         setParams({ page });
       },
-      [onPageChange, setParams],
+      [onPageChange, setParams]
     );
 
     const handlePrevPage = useCallback(() => {
@@ -107,5 +107,9 @@ export const Pagination = memo(
         </button>
       </nav>
     );
-  },
+  }
 );
+
+Pagination.displayName = "Pagination";
+
+export default Pagination;
