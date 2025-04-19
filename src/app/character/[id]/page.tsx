@@ -107,4 +107,6 @@ const CharacterPage = memo(() => {
   );
 });
 
+CharacterPage.displayName = "CharacterPage";
+
 export default CharacterPage;

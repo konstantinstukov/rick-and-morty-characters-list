@@ -21,7 +21,7 @@ export const EpisodesTable = ({ episodesIds }: EpisodesTableProps) => {
     error,
   } = useGetEpisodesByIdQuery(
     { ids: episodesIds },
-    { refetchOnMountOrArgChange: true },
+    { refetchOnMountOrArgChange: true }
   );
 
   if (isLoading) {
@@ -71,7 +71,7 @@ export const EpisodesTable = ({ episodesIds }: EpisodesTableProps) => {
 
   return (
     <table className="text-lg w-full table-fixed">
-      <caption className="sr-only">Character's episodes</caption>
+      <caption className="sr-only">Character&apos;ts episodes</caption>
       <thead>
         <tr className="bg-[#e8e8e8] h-9">
           <th
